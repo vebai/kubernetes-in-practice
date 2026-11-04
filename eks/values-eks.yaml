@@ -1,0 +1,37 @@
+image:
+  repository: REPLACE_WITH_ECR_REGISTRY/flask-app
+  tag: "v2.3.0"
+  pullPolicy: IfNotPresent
+
+config:
+  appMessage: "Hello from Amazon EKS"
+  startupDelaySeconds: "0"
+
+secret:
+  existingSecret: ""
+
+ingress:
+  enabled: true
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /readyz
+  className: alb
+  path: /
+  pathType: Prefix
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70
+
+pdb:
+  enabled: true
+  minAvailable: 1
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

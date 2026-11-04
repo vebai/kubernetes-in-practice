@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  tag: "v2.3.0"
+  pullPolicy: Never
+
+config:
+  appMessage: "Hello from development"
+  startupDelaySeconds: "0"
+
+secret:
+  existingSecret: ""
+
+ingress:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+pdb:
+  enabled: false
