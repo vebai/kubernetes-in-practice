@@ -66,7 +66,7 @@ Stage only the final new/modified source and docs. For example:
 ```bash
 git add .gitignore README.md \
   docs/VALIDATION-EVIDENCE.md docs/REPO-BOOK-PATHS.md \
-  docs/BOOK-MANUAL-FIND-REPLACE.md docs/FINAL-RELEASE-CHECKLIST.md \
+  docs/FINAL-RELEASE-CHECKLIST.md \
   docs/CLEANUP.md docs/EKS-SAFETY.md docs/SETUP.md \
   chapters/chapter-10-eks/README.md \
   chapters/chapter-11-eks-operations/README.md \
@@ -109,4 +109,4 @@ Do not delete the profile named `minikube` or the manuscript's manually created 
 
 ## 7. Update Word manually
 
-Use `docs/BOOK-MANUAL-FIND-REPLACE.md` to apply the targeted edits to the manuscript. No `.docx` modification is included in this overlay. After editing, update Word's TOC, verify page breaks, figure/table placement and page numbers, then export KDP and ebook files separately as needed.
+Apply the targeted manuscript find-and-replace corrections from the private editorial notes (not hosted in this public reader companion). No `.docx` modification is included in the repository overlay. After editing, update Word's TOC, verify page breaks, figure/table placement and page numbers, then export KDP and ebook files separately as needed.
