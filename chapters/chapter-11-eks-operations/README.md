@@ -26,3 +26,8 @@ kubectl top pods -n flask
 The presence of an add-on or Kubernetes resource alone does not prove it is correctly configured. Investigate warnings and service behaviour before applying any updates. See [Troubleshooting](../../docs/TROUBLESHOOTING.md).
 
 **Cleanup:** no resources are created by this read-only checklist; keep the same cluster for Chapter 12 if you intend to finish the final project.
+
+
+## Verified live operations evidence
+
+On 5 November 2026 the author verified healthy ALB target groups, an external HTTP response, real CPU metrics and HPA `ScalingActive` on a live EKS Auto Mode cluster. Two Ready nodes existed in separate AZs, but **both Flask application Pods ran on one node**. Platform node spread is not application spread. The separate read-only runner is `bash validation/aws-live/11-observe.sh`; it requires the isolated kubeconfig and exact AWS account used by the creation stage. See `docs/VALIDATION-EVIDENCE.md` for limits.

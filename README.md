@@ -57,7 +57,7 @@ You do **not** need an AWS account for the local chapters. EKS exercises create 
 
 **Local foundation (Chapters 1–6).** Build the initial app in [`flask-app/`](flask-app/), then run local Kubernetes examples under [`manifests/`](manifests/). Each guide says which files to use. The later application variants are under [`flask-app/versions/`](flask-app/versions/) because the book adds readiness and CPU-work behaviour progressively.
 
-**Separate security lab (Chapter 7).** Uses its own `security-lab` Minikube profile and `shop` namespace so you can practise NetworkPolicy without disrupting the earlier cluster. The CNI must support NetworkPolicy enforcement.
+**Separate security lab (Chapter 7).** The manual book lab uses `security-lab`; the automated validation uses a distinct `book-k8s-security` Minikube profile and the `shop` namespace, with Calico enforcement. Do not mix the two contexts. The CNI must support NetworkPolicy enforcement.
 
 **Helm and AWS (Chapters 9–12).** The chart lives in [`helm/flask-app/`](helm/flask-app/) with development and EKS values. You can lint and render a chart locally before installing it. The EKS templates are under [`eks/`](eks/) and are **never applied automatically**.
 
@@ -86,6 +86,9 @@ docker rm -f flask-app
 Expected response: `{"status":"alive"}`. Then follow [Chapter 2](chapters/chapter-02-local-cluster/README.md) to create the local cluster and load the same image.
 
 ## Verification, troubleshooting and cleanup
+
+The optional [chapter validation suite](validation/README.md) and [staged AWS live-validation suite](validation/aws-live/README.md) have separate execution boundaries. Read [what was actually tested](docs/VALIDATION-EVIDENCE.md) and the [book-to-repo path map](docs/REPO-BOOK-PATHS.md). A locally rendered EKS chart does not prove a live EKS cluster. EKS creation, deliberate faults and deletion each require explicit approval.
+
 
 Run the **offline file checks** without deploying anything:
 

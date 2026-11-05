@@ -45,3 +45,8 @@ kubectl get deployment,pods,service,ingress -n flask
 EKS Auto Mode capacity and Metrics Server availability may require additional checks described in the book. Verify the application's external HTTP path, the ALB state, target health and HPA; an Ingress object alone is not proof that traffic works.
 
 **Cleanup is a separate, required step:** uninstall the Helm release, verify load balancers have gone, delete cluster resources only after confirmation, and inspect ECR. Follow [the EKS cleanup sequence](../../docs/CLEANUP.md).
+
+
+## Optional tested automation path
+
+The manual book exercise above is self-contained. If you use the **companion** files instead, keep the repository root as the working directory: the chart is `helm/flask-app`, the EKS override is `eks/values-eks.yaml`, and the cluster source is `eks/cluster.yaml`. Use `validation/aws-live/00-preflight.sh` for read-only checks and the staged scripts in `validation/aws-live/README.md` for expressly authorised, chargeable deployment and cleanup. The tested process overrides `image.repository` with the actual ECR URI through Helm `--set-string`; it does not require committing a personal registry address into `values-eks.yaml`. The live script also generates a per-operator restricted ALB `inboundCIDRs` manifest in ignored local state. During initial Auto Mode capacity provisioning, Metrics Server may report `DEGRADED` transiently; inspect `health.issues` and wait within defined limits rather than immediately reinstalling the add-on.

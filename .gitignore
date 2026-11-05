@@ -14,6 +14,9 @@ kubeconfig*
 *.crt
 *.p12
 *.tfstate*
+validation/.logs/
+.validation-venv/
+
 .terraform/
 helm/rendered*.yaml
 rendered.yaml

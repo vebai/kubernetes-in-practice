@@ -37,3 +37,8 @@ helm history flask-app -n flask
 If a new release is faulty, review revision history and roll back to the intended previous revision using `helm rollback flask-app REVISION -n flask --wait --timeout 10m`, then repeat application and readiness checks. Do not copy a revision number from a different environment.
 
 **Finish with AWS cleanup**: [Remove the workload, inspect ALBs, then remove the cluster and lab ECR repository](../../docs/CLEANUP.md). EKS billing can continue until cleanup is confirmed.
+
+
+## Live capstone evidence and limitations
+
+The author validated a real Helm upgrade to three replicas, recovery after deleting a single owned Pod, a deliberately broken image upgrade, Helm automatic rollback, and healthy external ALB traffic after both recoveries. Helm 4 uses `--rollback-on-failure` (Helm 3 uses `--atomic`). The live capstone's three Pods nevertheless remained on **one worker node**. `ScheduleAnyway` is only a scheduling preference and does not prove multi-AZ placement; a Pod deletion does not prove PDB-enforced eviction. Load-driven HPA scale-out, node/AZ loss and EKS NetworkPolicy enforcement were not covered by the automated capstone. See `docs/VALIDATION-EVIDENCE.md`.

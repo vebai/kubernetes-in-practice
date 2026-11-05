@@ -75,6 +75,10 @@ aws sts get-caller-identity
 
 Choose `eu-west-2` (London) for the documented EKS example, or adjust every EKS-related file consistently. Check the available EKS Kubernetes versions before creating a cluster. Read [AWS costs and safety](EKS-SAFETY.md) first.
 
+## Optional chapter-by-chapter validation
+
+The manual book labs and the repository automated harness are alternative routes. For the harness, use the distinct `book-k8s-validation` and `book-k8s-security` profiles, check Docker Desktop capacity and run `bash validation/preflight.sh` followed by `bash validation/run.sh 01` from the repository root. For the AWS live path, see `validation/aws-live/README.md`; the local harness never creates AWS resources.
+
 ## General rules
 
 - Work from the repository root unless the chapter guide says otherwise.
