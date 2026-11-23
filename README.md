@@ -1,40 +1,33 @@
 # Kubernetes in Practice
 
-**Companion repository for *Kubernetes in Practice: Deploy, Secure, Scale, and Troubleshoot Applications with Minikube, Helm, and Amazon EKS* by Victor Ebai.**
+Companion labs for Victor Ebai’s *Kubernetes in Practice: Build, Operate, Troubleshoot, and Secure Kubernetes Applications with Confidence*.
 
-## What you will gain from the book
+## Get the book
 
-A working container is only the beginning. When customers depend on an application, engineering teams must keep it available, release changes reliably, control resources and security, and find the cause when something fails. *Kubernetes in Practice* teaches those operational skills through one continuous, hands-on application journey—from a local Docker image to a production-style workload on Amazon EKS.
+**[Buy *Kubernetes in Practice* on Amazon UK](https://www.amazon.co.uk/dp/B0HPGS53FY)** · Paperback
 
-You will learn to:
+## From Flask to Amazon EKS
 
-- **Deploy and update applications confidently** using Pods, Deployments, Services, labels and selectors.
-- **Keep services available** through health and readiness probes, scaling, controlled rollouts and recovery.
-- **Configure and secure workloads** with ConfigMaps, Secrets, ServiceAccounts, RBAC, restricted Pod security and NetworkPolicy.
-- **Diagnose failures using evidence** from Kubernetes status, events, logs, DNS, EndpointSlices and the request path.
-- **Package repeatable releases** with Helm, then operate the application on Amazon EKS.
+Build a non-root Docker image for a small Python Flask service with `/`, `/healthz` and `/readyz`. Follow the same app through Kubernetes networking, probes, scaling, security and troubleshooting.
 
-The book is designed to build engineering judgement, not simply familiarity with `kubectl`. Its practical method is **Build → Observe → Break → Diagnose → Fix → Verify**.
+![The Flask application progresses from a Docker image to local Kubernetes, a reliable workload, a Helm release and Amazon EKS.](docs/images/application-journey.png)
 
-## How this repository helps
+*Figure 0.1 from the book. The local labs use Minikube. Amazon EKS is optional.*
 
-The book is **fully self-contained**: it teaches the concepts, decisions and complete exercises. This public companion gives you ready-to-use application source, Kubernetes YAML, a Helm chart and short lab guides, so you can spend more time building and validating rather than retyping configuration.
+## Start locally
 
-The example is a small Python Flask service with three endpoints: `/`, `/healthz` and `/readyz`. You will build it as an image, run it on Minikube, make it reliable and secure, package it with Helm and deploy it to EKS when you are ready.
-
-**Want the complete learning path?** Read *Kubernetes in Practice* by Victor Ebai for the problem-first explanations, mental models, operational decisions and guided investigations that connect these exercises. The files here support the book; they are not a replacement for its teaching.
-
-## Before you begin
-
-Start with the [setup guide](docs/SETUP.md). You need Docker, `curl`, Git, a terminal, and later Minikube, `kubectl` and Helm. AWS CLI and `eksctl` are required only for the EKS part.
+Use the [setup guide](docs/SETUP.md) for macOS, Linux or WSL 2. For Chapter 1, install Git and `curl` and make sure Docker is running. Install Minikube and `kubectl` for Chapter 2, and Helm for Chapter 9. The local chapters run without an AWS account.
 
 ```bash
-docker version
-docker run --rm hello-world
-kubectl version --client
+git clone https://github.com/vebai/kubernetes-in-practice.git
+cd kubernetes-in-practice/flask-app
+docker build -t flask-app:v1.0.0 .
+docker run --rm -d --name flask-app -p 127.0.0.1:5050:5000 flask-app:v1.0.0
+curl --fail http://127.0.0.1:5050/healthz
+docker stop flask-app
 ```
 
-You do **not** need an AWS account for the local chapters. EKS exercises create chargeable AWS resources; read [EKS safety and costs](docs/EKS-SAFETY.md) before proceeding.
+Once the app starts, `/healthz` returns `{"status":"alive"}`. If the first request arrives before Flask is ready, retry it before stopping the container. Next, follow [Chapter 2](chapters/chapter-02-local-cluster/README.md) to start Minikube and load the image.
 
 ## Choose your chapter
 
@@ -70,34 +63,20 @@ kubectl get nodes
 
 **A valid YAML file is not permission to apply it.** Always check namespace, cluster context, image name, required tools, and any secrets before making changes.
 
-## Quick start — local application
+The optional EKS labs require AWS CLI v2, `eksctl` and an appropriately authorised AWS identity. Read [EKS safety and costs](docs/EKS-SAFETY.md) and [safe cleanup](docs/CLEANUP.md) before creating chargeable resources.
 
-From your own terminal:
+## Validate the files
 
-```bash
-git clone https://github.com/vebai/kubernetes-in-practice.git
-cd kubernetes-in-practice/flask-app
-docker build -t flask-app:v1.0.0 .
-docker run --rm -d --name flask-app -p 127.0.0.1:5050:5000 flask-app:v1.0.0
-curl --fail http://127.0.0.1:5050/healthz
-docker rm -f flask-app
-```
-
-Expected response: `{"status":"alive"}`. Then follow [Chapter 2](chapters/chapter-02-local-cluster/README.md) to create the local cluster and load the same image.
-
-## Verification, troubleshooting and cleanup
-
-The optional [chapter validation suite](validation/README.md) and [staged AWS live-validation suite](validation/aws-live/README.md) have separate execution boundaries. Read [what was actually tested](docs/VALIDATION-EVIDENCE.md) and the [book-to-repo path map](docs/REPO-BOOK-PATHS.md). A locally rendered EKS chart does not prove a live EKS cluster. EKS creation, deliberate faults and deletion each require explicit approval.
-
-
-Run the **offline file checks** without deploying anything:
+From the repository root, run the offline checks with Python 3 installed. Install PyYAML for YAML checks and Helm for chart checks.
 
 ```bash
 bash tests/validate-files.sh
 ```
 
-They check Python syntax, static YAML structure, relative README links and repository hygiene. If Helm is installed, they also lint and render the chart. They do not prove a live Kubernetes or EKS deployment.
+The script checks Python syntax, relative Markdown links and repository hygiene. With PyYAML installed, it also checks static YAML structure. With Helm installed, it also lints and renders the chart using the development values. These checks run without a cluster.
 
-When something fails, read [Troubleshooting](docs/TROUBLESHOOTING.md) and first verify the active context, resource status, events and logs. For resource removal, follow [Safe cleanup](docs/CLEANUP.md); deleting the Helm release does **not** delete the EKS cluster or AWS load balancer automatically in every failure state.
+For runtime checks, use the separate [local chapter validation suite](validation/README.md) or the [staged AWS live-validation guide](validation/aws-live/README.md). See the [validation evidence](docs/VALIDATION-EVIDENCE.md) for the scope of previous runs and the [book-to-repo path map](docs/REPO-BOOK-PATHS.md) for the files used in each lab. If a lab fails, start with the [troubleshooting guide](docs/TROUBLESHOOTING.md).
 
-This repository contains no live credentials or production secrets. The EKS exercises are optional and may incur AWS costs.
+## Continue with the book
+
+**[Buy *Kubernetes in Practice* on Amazon UK](https://www.amazon.co.uk/dp/B0HPGS53FY)** for the complete exercises and guided troubleshooting investigations.
