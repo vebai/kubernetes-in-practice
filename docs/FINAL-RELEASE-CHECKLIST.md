@@ -13,7 +13,7 @@ git branch --show-current
 git status --short
 ```
 
-If the checkout has unrelated uncommitted work, protect it first and inspect the differences. Do not use `git reset --hard`, `git clean -fdx`, or the repository's `publish-to-github.sh`: the latter creates a NEW repository and intentionally refuses an existing one.
+If the checkout has unrelated uncommitted work, protect it first and inspect the differences. Avoid `git reset --hard` and `git clean -fdx` to preserve unrelated work.
 
 ## 2. Install the final overlay
 
@@ -93,7 +93,7 @@ git status --short
 git rev-parse --short HEAD
 ```
 
-The hosted repository should show `validation/README.md`, `validation/aws-live/README.md`, the updated Dockerfiles, the evidence report, and reconciliation docs. **Do not** use `publish-to-github.sh` for this already-created public repo.
+The hosted repository should show `validation/README.md`, `validation/aws-live/README.md`, the updated Dockerfiles, the evidence report, and reconciliation docs.
 
 ## 6. Clean up local clusters only if no longer needed
 
