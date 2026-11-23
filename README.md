@@ -80,3 +80,5 @@ For runtime checks, use the separate [local chapter validation suite](validation
 ## Continue with the book
 
 **[Buy *Kubernetes in Practice* on Amazon UK](https://www.amazon.co.uk/dp/B0HPGS53FY)** for the complete exercises and guided troubleshooting investigations.
+
+**Also by Victor Ebai:** [*Terraform on AWS in Practice*](https://github.com/vebai/terraform-on-aws-in-practice) covers building, changing and troubleshooting AWS infrastructure with Terraform.
