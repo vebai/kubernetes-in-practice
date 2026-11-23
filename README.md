@@ -46,11 +46,24 @@ Once the app starts, `/healthz` returns `{"status":"alive"}`. If the first reque
 | 11 | Observe, secure and operate an EKS workload | [EKS operations](chapters/chapter-11-eks-operations/README.md) |
 | 12 | Validate a production-style release and exercise recovery | [Final project](chapters/chapter-12-final-project/README.md) |
 
-## Before applying manifests
+## How the exercises fit together
 
-- Check `kubectl config current-context` and `kubectl get nodes`. Verify the target namespace and image against the chapter guide.
-- Chapter 7 needs a CNI that enforces NetworkPolicy. The manual lab uses the `security-lab` profile. The automated lab uses `book-k8s-security` with Calico and the `shop` namespace.
-- The optional EKS labs require AWS CLI v2, `eksctl` and an appropriately authorised AWS identity. Read [EKS safety and costs](docs/EKS-SAFETY.md) and [safe cleanup](docs/CLEANUP.md) before creating chargeable resources.
+**Local foundation (Chapters 1–6).** Build the initial app in [`flask-app/`](flask-app/), then run local Kubernetes examples under [`manifests/`](manifests/). Each guide says which files to use. The later application variants are under [`flask-app/versions/`](flask-app/versions/) because the book adds readiness and CPU-work behaviour progressively.
+
+**Separate security lab (Chapter 7).** The manual book lab uses `security-lab`; the automated validation uses a distinct `book-k8s-security` Minikube profile and the `shop` namespace, with Calico enforcement. Do not mix the two contexts. The CNI must support NetworkPolicy enforcement.
+
+**Helm and AWS (Chapters 9–12).** The chart lives in [`helm/flask-app/`](helm/flask-app/) with development and EKS values. You can lint and render a chart locally before installing it. The EKS templates are under [`eks/`](eks/) and are **never applied automatically**.
+
+Verify your target first:
+
+```bash
+kubectl config current-context
+kubectl get nodes
+```
+
+**A valid YAML file is not permission to apply it.** Always check namespace, cluster context, image name, required tools, and any secrets before making changes.
+
+The optional EKS labs require AWS CLI v2, `eksctl` and an appropriately authorised AWS identity. Read [EKS safety and costs](docs/EKS-SAFETY.md) and [safe cleanup](docs/CLEANUP.md) before creating chargeable resources.
 
 ## Validate the files
 
