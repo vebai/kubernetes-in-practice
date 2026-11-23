@@ -10,13 +10,9 @@ Companion labs for Victor Ebai’s *Kubernetes in Practice: Build, Operate, Trou
 
 Build a non-root Docker image for a small Python Flask service with `/`, `/healthz` and `/readyz`. Follow the same app through Kubernetes networking, probes, scaling, security and troubleshooting.
 
-```mermaid
-flowchart LR
-    A["Flask app"] --> B["Docker image"]
-    B --> C["Minikube labs"]
-    C --> D["Helm release"]
-    D --> E["Amazon EKS (optional)"]
-```
+![The Flask application progresses from a Docker image to local Kubernetes, a reliable workload, a Helm release and Amazon EKS.](docs/images/application-journey.png)
+
+*Figure 0.1 from the book. The local labs use Minikube. Amazon EKS is optional.*
 
 ## Start locally
 
