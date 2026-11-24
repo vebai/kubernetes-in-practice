@@ -1,38 +1,88 @@
 # Kubernetes in Practice
 
-Companion labs for Victor Ebai’s *Kubernetes in Practice: Build, Operate, Troubleshoot, and Secure Kubernetes Applications with Confidence*.
+This is the companion repository for the book *Kubernetes in Practice: Build, Operate, Troubleshoot, and Secure Kubernetes Applications with Confidence* by **Victor Ebai**. It provides the sample Flask application, Kubernetes manifests, Helm chart, EKS configurations, and chapter-by-chapter lab guides.
 
-## Get the book
+## Get the paperback
 
-**Paperback:** **[Amazon UK](https://www.amazon.co.uk/dp/B0HPGS53FY)** · [Amazon US](https://www.amazon.com/dp/B0HPGS53FY) · [Amazon India (ISBN search)](https://www.amazon.in/s?k=9798165672880&i=stripbooks)
+**[Amazon UK — Paperback](https://www.amazon.co.uk/dp/B0HPGS53FY)** (default) · [Amazon US — Paperback](https://www.amazon.com/dp/B0HPGS53FY) · [Amazon India — Find paperback by ISBN](https://www.amazon.in/s?k=9798165672880&i=stripbooks)
 
-## From Flask to Amazon EKS
+**Quick navigation:** [Getting started](#getting-started) · [Chapter index](#choose-your-chapter) · [Lab structure](#how-the-exercises-fit-together) · [Validation](#validate-the-files) · [Cleanup](docs/CLEANUP.md)
 
-Build a non-root Docker image for a small Python Flask service with `/`, `/healthz` and `/readyz`. Follow the same app through Kubernetes networking, probes, scaling, security and troubleshooting.
+## From Docker image to Kubernetes and Amazon EKS
 
-![The Flask application progresses from a Docker image to local Kubernetes, a reliable workload, a Helm release and Amazon EKS.](docs/images/application-journey.png)
+Follow a small, non-root Python Flask service from a local container image through Pods, Deployments, Services, probes, configuration, security, scaling, and Helm. Use Minikube for the local labs, with an optional path to managed Kubernetes on Amazon EKS.
 
-*Figure 0.1 from the book. The local labs use Minikube. Amazon EKS is optional.*
+![Kubernetes in Practice learning overview: application code becomes a Docker image, is packaged with a Helm chart, and runs as a Kubernetes workload with Deployments, Services, Ingress, configuration, scaling, security, and monitoring; Minikube is the local environment and Amazon EKS is the optional AWS environment.](docs/images/kubernetes-overview.png)
 
-**New to Docker?** [*Docker in Practice* (UK paperback)](https://www.amazon.co.uk/dp/B0HPGQQ86V) explains container images, Dockerfiles and Compose. Its [companion examples](https://github.com/vebai/docker-in-practice) are freely available.
+*One application, progressively operated through Docker, Kubernetes and Helm. Minikube supports local learning; Amazon EKS is optional and creates chargeable cloud resources.*
 
+**The book is fully self-contained.** You do not need this repository to understand or complete its learning path. The repository provides convenient, testable copies of the application, configurations, and lab instructions.
 
-**Jump to:** [Start locally](#start-locally) · [Chapter index](#choose-your-chapter) · [How the labs fit together](#how-the-exercises-fit-together) · [Validation](#validate-the-files) · [Cleanup](docs/CLEANUP.md)
+Build a container image, deploy and expose a Kubernetes application, **verify readiness and recovery**, add security and scaling controls, release through Helm, and optionally practise operations on Amazon EKS.
 
-## Start locally
+The practical workflow is **Build → Deploy → Observe → Break → Diagnose → Recover → Verify**. Use the book for the explanations and engineering judgement; use this repository for runnable examples, guided checks, and safe cleanup.
 
-Use the [setup guide](docs/SETUP.md) for macOS, Linux or WSL 2. For Chapter 1, install Git and `curl` and make sure Docker is running. Install Minikube and `kubectl` for Chapter 2, and Helm for Chapter 9. The local chapters run without an AWS account.
+## What you will build and practise
+
+By working through the exercises, you will learn to:
+
+- **Package and verify a non-root Flask container** with `/`, `/healthz`, and `/readyz` endpoints.
+- **Deploy and update workloads** using Pods, Deployments, Services, and Kubernetes networking.
+- **Manage application configuration** using ConfigMaps, Secrets, health probes, and resource limits.
+- **Inspect scaling, security, and failures** using HPA, RBAC, NetworkPolicy, logs, and events.
+- **Package and release with Helm**, then optionally build an ECR/EKS deployment and verify recovery.
+
+The same Flask service develops through the chapters so you can recognise how each additional control changes its behaviour.
+
+## Before you begin
+
+**First-time setup:** [Prepare Docker, Minikube, kubectl, Helm, and your terminal](docs/SETUP.md).
+
+You need:
+
+- **Docker Desktop** (macOS/Windows) or **Docker Engine** (Linux), plus **Git** and **`curl`** for the first chapter.
+- **Minikube** and **`kubectl`** when you start the local Kubernetes exercises (Chapter 2).
+- **Helm** for the packaging and release chapters (from Chapter 9).
+- A macOS or Linux terminal, or a Bash-compatible WSL 2 environment on Windows.
+- **Optional AWS CLI v2, `eksctl`, and an authorised AWS account** only for the EKS exercises (Chapters 10–12).
+
+The AWS examples target **London (`eu-west-2`)**. Check supported EKS versions and current AWS permissions before creating a cluster. A local Kubernetes cluster does not require an AWS account.
+
+**Cost and security:** Local exercises may consume CPU and memory. EKS, ECR, load balancers, and related resources can incur charges. Review [EKS safety and costs](docs/EKS-SAFETY.md), check your exact Kubernetes context, keep credentials out of Git, and follow [safe cleanup](docs/CLEANUP.md). NetworkPolicy enforcement requires a compatible CNI.
+
+## Getting started
+
+**1. Clone the repository** in your terminal:
 
 ```bash
 git clone https://github.com/vebai/kubernetes-in-practice.git
-cd kubernetes-in-practice/flask-app
+cd kubernetes-in-practice
+```
+
+**2. Verify the Chapter 1 container** on your own computer, with Docker running:
+
+```bash
+cd flask-app
 docker build -t flask-app:v1.0.0 .
 docker run --rm -d --name flask-app -p 127.0.0.1:5050:5000 flask-app:v1.0.0
 curl --fail http://127.0.0.1:5050/healthz
 docker stop flask-app
+cd ..
 ```
 
-Once the app starts, `/healthz` returns `{"status":"alive"}`. If the first request arrives before Flask is ready, retry it before stopping the container. Next, follow [Chapter 2](chapters/chapter-02-local-cluster/README.md) to start Minikube and load the image.
+The expected health response is `{"status":"alive"}`. If the initial request arrives before Flask is ready, retry it before stopping the container.
+
+**3. Continue to Kubernetes** using the [Chapter 2 local cluster guide](chapters/chapter-02-local-cluster/README.md). Check `kubectl config current-context` before applying any manifest.
+
+**4. Validate files without creating a cluster** using the offline checker:
+
+```bash
+bash tests/validate-files.sh
+```
+
+See [validation](validation/README.md) for optional local runtime tests and the separate [AWS live-validation guide](validation/aws-live/README.md) before attempting EKS deployments.
+
+**New to Docker?** [*Docker in Practice* (UK paperback)](https://www.amazon.co.uk/dp/B0HPGQQ86V) covers images, Dockerfiles, Compose, and container debugging; its [companion examples](https://github.com/vebai/docker-in-practice) are freely available.
 
 ## Choose your chapter
 
