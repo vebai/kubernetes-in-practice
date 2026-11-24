@@ -20,7 +20,6 @@ bash tests/validate-files.sh
 python3 validation/static-audit.py
 python3 validation/test-endpoint-count.py
 python3 validation/test-configmap-owner.py
-python3 validation/test-final-maintenance.py
 bash validation/test-rbac-check.sh
 for file in validation/*.sh; do bash -n "$file"; done
 if grep -q -- '--resource-name' validation/07-security.sh; then

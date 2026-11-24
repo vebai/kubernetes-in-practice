@@ -28,6 +28,8 @@ The presence of an add-on or Kubernetes resource alone does not prove it is corr
 **Cleanup:** no resources are created by this read-only checklist; keep the same cluster for Chapter 12 if you intend to finish the final project.
 
 
-## Verified live operations evidence
+## Verify operational behaviour
 
-On 5 November 2026 the author verified healthy ALB target groups, an external HTTP response, real CPU metrics and HPA `ScalingActive` on a live EKS Auto Mode cluster. Two Ready nodes existed in separate AZs, but **both Flask application Pods ran on one node**. Platform node spread is not application spread. The separate read-only runner is `bash validation/aws-live/11-observe.sh`; it requires the isolated kubeconfig and exact AWS account used by the creation stage. See `docs/VALIDATION-EVIDENCE.md` for limits.
+Confirm target-group health, external HTTP responses, metrics and HPA conditions in the environment you control. Check Pod placement with `kubectl get pods -n flask -o wide`: Ready nodes across multiple Availability Zones do not prove the application Pods are distributed across those nodes.
+
+For optional read-only AWS inspection, run `bash validation/aws-live/11-observe.sh` from the repository root after following [the AWS validation guide](../../validation/aws-live/README.md). This requires an exact AWS account and a verified Kubernetes context.

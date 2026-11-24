@@ -1,6 +1,6 @@
-# Book ↔ companion repository path reconciliation
+# Locate the chapter files
 
-The paperback teaches readers to **create the files themselves** in working directories such as `chapter-09/` and `chapter-10/`. The ready-to-run GitHub companion is organised differently for reuse. These are two **alternative workflows**, not two directories that must both exist.
+The book's exercises sometimes create files in chapter-specific working directories. The companion repository provides ready-to-use copies organised for reuse. These are **alternative ways to work**, not directories that must both exist.
 
 | Reader-built path in the book | Companion path from repository root |
 |---|---|
@@ -27,4 +27,4 @@ helm template flask-app helm/flask-app -n flask -f eks/values-capstone.yaml \
 
 The final `helm template` is a **render-only** example: replace its placeholder with the actual registry only when you own the relevant AWS account. Do not use this example as permission to deploy or create an EKS cluster. For cost-controlled AWS lab validation, use `validation/aws-live/README.md`.
 
-Chapter 7's **manual manuscript lab** names the isolated Minikube profile `security-lab`. The **automated test harness** deliberately names its dedicated profile `book-k8s-security` to distinguish tests from hand-built exercises. Keep the paths and contexts consistent within the workflow you choose. Never assume a local context is an EKS context.
+The **manual Chapter 7 lab** names the isolated Minikube profile `security-lab`. The **automated test harness** deliberately names its dedicated profile `book-k8s-security` to distinguish tests from hand-built exercises. Keep the paths and contexts consistent within the workflow you choose. Never assume a local context is an EKS context.

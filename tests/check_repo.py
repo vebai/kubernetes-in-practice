@@ -39,9 +39,8 @@ for p in ROOT.rglob('*.md'):
         link=link.split('#',1)[0]
         if not link or link.startswith(('https://','http://','mailto:','#')):continue
         if not (p.parent/link).exists():failed.append(f'Broken markdown link: {p.relative_to(ROOT)} -> {link}')
-for forbidden in ('BOOK-CODE.md','manuscript','extracted paragraphs','publication-status'):
-    if forbidden=='BOOK-CODE.md':
-        for p in ROOT.rglob(forbidden):failed.append(f'Forbidden file: {p.relative_to(ROOT)}')
+for p in ROOT.rglob('BOOK-CODE.md'):
+    failed.append(f'Unexpected non-reader file: {p.relative_to(ROOT)}')
 if failed:
     print('\n'.join(failed))
     sys.exit(1)

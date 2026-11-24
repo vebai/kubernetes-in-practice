@@ -4,7 +4,7 @@ Companion labs for Victor Ebai’s *Kubernetes in Practice: Build, Operate, Trou
 
 ## Get the book
 
-**[Buy *Kubernetes in Practice* on Amazon UK](https://www.amazon.co.uk/dp/B0HPGS53FY)** · Paperback
+**Paperback:** **[Amazon UK](https://www.amazon.co.uk/dp/B0HPGS53FY)** · [Amazon US](https://www.amazon.com/dp/B0HPGS53FY) · [Amazon India (ISBN search)](https://www.amazon.in/s?k=9798165672880&i=stripbooks)
 
 ## From Flask to Amazon EKS
 
@@ -13,6 +13,11 @@ Build a non-root Docker image for a small Python Flask service with `/`, `/healt
 ![The Flask application progresses from a Docker image to local Kubernetes, a reliable workload, a Helm release and Amazon EKS.](docs/images/application-journey.png)
 
 *Figure 0.1 from the book. The local labs use Minikube. Amazon EKS is optional.*
+
+**New to Docker?** [*Docker in Practice* (UK paperback)](https://www.amazon.co.uk/dp/B0HPGQQ86V) explains container images, Dockerfiles and Compose. Its [companion examples](https://github.com/vebai/docker-in-practice) are freely available.
+
+
+**Jump to:** [Start locally](#start-locally) · [Chapter index](#choose-your-chapter) · [How the labs fit together](#how-the-exercises-fit-together) · [Validation](#validate-the-files) · [Cleanup](docs/CLEANUP.md)
 
 ## Start locally
 
@@ -75,8 +80,12 @@ bash tests/validate-files.sh
 
 The script checks Python syntax, relative Markdown links and repository hygiene. With PyYAML installed, it also checks static YAML structure. With Helm installed, it also lints and renders the chart using the development values. These checks run without a cluster.
 
-For runtime checks, use the separate [local chapter validation suite](validation/README.md) or the [staged AWS live-validation guide](validation/aws-live/README.md). See the [validation evidence](docs/VALIDATION-EVIDENCE.md) for the scope of previous runs and the [book-to-repo path map](docs/REPO-BOOK-PATHS.md) for the files used in each lab. If a lab fails, start with the [troubleshooting guide](docs/TROUBLESHOOTING.md).
+For runtime checks, use the separate [local chapter validation suite](validation/README.md) or the [staged AWS live-validation guide](validation/aws-live/README.md). See the [chapter file map](docs/REPO-BOOK-PATHS.md) to locate the supplied files. The validation suite documents what each automated check covers. If a lab fails, start with the [troubleshooting guide](docs/TROUBLESHOOTING.md).
 
 ## Continue with the book
 
-**[Buy *Kubernetes in Practice* on Amazon UK](https://www.amazon.co.uk/dp/B0HPGS53FY)** for the complete exercises and guided troubleshooting investigations.
+**[Amazon UK paperback](https://www.amazon.co.uk/dp/B0HPGS53FY)** for the complete exercises, architecture explanations and guided troubleshooting investigations.
+
+## Licence
+
+The runnable code and Kubernetes configurations are available under the [MIT License](LICENSE). Book text and illustrations remain © 2026 Victor Ebai.

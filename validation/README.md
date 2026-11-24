@@ -1,6 +1,6 @@
 # Kubernetes in Practice — chapter validation pack
 
-This drop-in pack is for the existing repository at <https://github.com/vebai/kubernetes-in-practice>. It does not overwrite the manuscript, application, manifests, chart or repository root README. Install the **entire `validation/` directory at the repository root**.
+This optional suite validates the repository's application, Kubernetes manifests, Helm chart and lab exercises. Run it from the root of your cloned repository. The scripts do not require live AWS infrastructure for local checks.
 
 ## Requirements
 
@@ -115,7 +115,7 @@ After any failure, send the `CHAPTER`, `checkpoint`, and relevant content from `
 
 ## What has actually been checked in the creation environment
 
-The scripts were authored against repository source retrieved from GitHub and the supplied paperback manuscript. Original local Chapters 1–9 were live-tested on 5 November 2026; v1.9 ownership-recovery guard is fixture-tested, while optional load-driven HPA scale-out is unproved. Shell syntax (`bash -n`) and Python syntax were checked. This generation environment has **no Docker, kubectl, Minikube, Helm, AWS CLI or live cluster**, so its creator **cannot report runtime test passes**. The final overlay does not repeat those earlier successful live runs automatically. See ../docs/VALIDATION-EVIDENCE.md for the exact coverage and remaining limitations.
+Each chapter PASS applies only to the steps that were actually executed. Offline YAML and Helm checks do not prove cluster behaviour, and local Minikube checks do not establish EKS readiness. Run the optional AWS scenarios only after confirming account ownership, permissions and expected charges. The optional CPU-driven HPA scale-out requires its separate load test.
 
 ## Troubleshooting Docker Desktop resource allocation (v1.1)
 
