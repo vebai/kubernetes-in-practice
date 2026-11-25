@@ -20,8 +20,11 @@ helm status flask-app -n flask
 aws eks list-addons --cluster-name flask-eks --region eu-west-2
 kubectl get ingressclass
 kubectl get storageclass
+kubectl get apiservice v1beta1.metrics.k8s.io
 kubectl top pods -n flask
 ```
+
+If `kubectl top pods` reports `Metrics API not available`, use the [Chapter 10 Metrics Server guide](../chapter-10-eks/README.md#enable-metrics-server-on-eks) to check the installation before scheduling any changes.
 
 The presence of an add-on or Kubernetes resource alone does not prove it is correctly configured. Investigate warnings and service behaviour before applying any updates. See [Troubleshooting](../../docs/TROUBLESHOOTING.md).
 

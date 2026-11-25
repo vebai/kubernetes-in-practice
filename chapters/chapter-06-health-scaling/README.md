@@ -47,13 +47,26 @@ kubectl rollout restart deployment/flask-app
 kubectl rollout status deployment/flask-app --timeout=150s
 ```
 
-For CPU-based horizontal scaling, your cluster needs Metrics Server. Verify it first:
+## Enable Metrics Server for CPU-based scaling
+
+If `kubectl top pods` reports `Metrics API not available`, enable the Metrics Server add-on in your local lab profile. Confirm the active context is your Minikube profile before running these commands:
 
 ```bash
-kubectl top pods
+LAB_PROFILE="$(kubectl config current-context)"
+minikube -p "$LAB_PROFILE" addons enable metrics-server
+kubectl --context="$LAB_PROFILE" -n kube-system rollout status deployment/metrics-server --timeout=180s
+kubectl --context="$LAB_PROFILE" wait --for=condition=Available apiservice/v1beta1.metrics.k8s.io --timeout=120s
+kubectl --context="$LAB_PROFILE" top pods
 ```
 
-If metrics are unavailable, consult the Minikube documentation for the matching Metrics Server add-on. Once metrics work:
+After the Metrics API becomes available, wait briefly for the first sample if `kubectl top pods` still has no data. If the rollout or API wait times out, inspect the add-on and API service:
+
+```bash
+kubectl --context="$LAB_PROFILE" -n kube-system describe deployment metrics-server
+kubectl --context="$LAB_PROFILE" describe apiservice v1beta1.metrics.k8s.io
+```
+
+Once `kubectl top pods` shows CPU and memory for the Flask Pods, apply the HPA:
 
 ```bash
 kubectl apply -f manifests/chapter-06/hpa.yaml

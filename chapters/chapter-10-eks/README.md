@@ -42,7 +42,24 @@ helm upgrade --install flask-app helm/flask-app -n flask -f eks/values-eks.yaml 
 kubectl get deployment,pods,service,ingress -n flask
 ```
 
-EKS Auto Mode capacity and Metrics Server availability may require additional checks described in the book. Verify the application's external HTTP path, the ALB state, target health and HPA; an Ingress object alone is not proof that traffic works.
+Verify the application's external HTTP path, the ALB state, target health and HPA.
+
+## Enable Metrics Server on EKS
+
+Check whether Metrics Server is already installed on the authorised EKS cluster:
+
+```bash
+aws eks list-addons --cluster-name "$CLUSTER_NAME" --region "$AWS_REGION"
+kubectl get apiservice v1beta1.metrics.k8s.io
+```
+
+If the add-on and Metrics API are both absent, install the [Metrics Server community add-on](https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html) from the cluster’s **Add-ons** tab in the EKS console. If the API service already exists, inspect that installation before making changes. Wait for the EKS add-on to become `ACTIVE`, then verify the API and Pod metrics:
+
+```bash
+kubectl wait --for=condition=Available apiservice/v1beta1.metrics.k8s.io --timeout=120s
+kubectl top pods -n flask
+kubectl get hpa -n flask
+```
 
 **Cleanup is a separate, required step:** uninstall the Helm release, verify load balancers have gone, delete cluster resources only after confirmation, and inspect ECR. Follow [the EKS cleanup sequence](../../docs/CLEANUP.md).
 
