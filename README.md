@@ -2,9 +2,13 @@
 
 This is the companion repository for the book *Kubernetes in Practice: Build, Operate, Troubleshoot, and Secure Kubernetes Applications with Confidence* by **Victor Ebai**. It provides the sample Flask application, Kubernetes manifests, Helm chart, EKS configurations, and chapter-by-chapter lab guides.
 
-## Get the paperback
+## Get the book on Amazon
 
-**[Amazon UK — Paperback](https://www.amazon.co.uk/dp/B0HPGS53FY)** · [Amazon US — Paperback](https://www.amazon.com/dp/B0HPGS53FY) · [Amazon India — Find paperback by ISBN](https://www.amazon.in/s?k=9798165672880&i=stripbooks)
+<a id="get-the-paperback"></a>
+
+**Paperback:** [Amazon UK](https://www.amazon.co.uk/dp/B0HPGS53FY) · [Amazon US](https://www.amazon.com/dp/B0HPGS53FY) · [Amazon India](https://www.amazon.in/dp/B0HPGS53FY)
+
+**Kindle eBook:** [Amazon UK](https://www.amazon.co.uk/dp/B0HPCTHJB4) · [Amazon US](https://www.amazon.com/dp/B0HPCTHJB4) · [Amazon India](https://www.amazon.in/dp/B0HPCTHJB4)
 
 **Quick navigation:** [Getting started](#getting-started) · [Chapter index](#choose-your-chapter) · [Lab structure](#how-the-exercises-fit-together) · [Validation](#validate-the-files) · [Cleanup](docs/CLEANUP.md)
 
