@@ -4,7 +4,7 @@ This is the companion repository for the book *Kubernetes in Practice: Build, Op
 
 ## Get the paperback
 
-**[Amazon UK — Paperback](https://www.amazon.co.uk/dp/B0HPGS53FY)** (default) · [Amazon US — Paperback](https://www.amazon.com/dp/B0HPGS53FY) · [Amazon India — Find paperback by ISBN](https://www.amazon.in/s?k=9798165672880&i=stripbooks)
+**[Amazon UK — Paperback](https://www.amazon.co.uk/dp/B0HPGS53FY)** · [Amazon US — Paperback](https://www.amazon.com/dp/B0HPGS53FY) · [Amazon India — Find paperback by ISBN](https://www.amazon.in/s?k=9798165672880&i=stripbooks)
 
 **Quick navigation:** [Getting started](#getting-started) · [Chapter index](#choose-your-chapter) · [Lab structure](#how-the-exercises-fit-together) · [Validation](#validate-the-files) · [Cleanup](docs/CLEANUP.md)
 
